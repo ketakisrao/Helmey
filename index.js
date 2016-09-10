@@ -27,29 +27,7 @@ var APP_ID = undefined; //replace with "amzn1.echo-sdk-ams.app.[your-unique-valu
  * The AlexaSkill prototype and helper functions
  */
 var AlexaSkill = require('./AlexaSkill');
-
-/*Import Twilio client*/
-var accountSid = authentication.accountSid;
-var authToken = authentication.authToken;
-
-var client = require('twilio')(accountSid, authToken);
-var MYNUMBER = "+12139857234";
-var dataObject = {message: "Hi, this is a sample"};
-client.messages.create({
-               to: "+919986968493", 
-               from: MYNUMBER, 
-               body: dataObject.message
-           }, function(err, message) { 
-               if (err)
-                   console.log("Error: " + err);
-               else
-                   console.log("success");
-           });
-module.exports = {
-    accountSid : 'AC9d4cd8b5ba2b753f200ab0cc197f3b60',
-    authToken : 'e51a9d207e35e8aa70080b614beedc18'
-};
-
+var authentication = require('./auth');
 /**
  * HelloWorld is a child of AlexaSkill.
  * To read more about inheritance in JavaScript, see the link below.
@@ -97,6 +75,23 @@ HelloWorld.prototype.intentHandlers = {
     },
     "SendMessageIntent": function (intent, session, response) {
         /*message sending logic over here*/
+        /*Import Twilio client*/
+        var accountSid = authentication.accountSid;
+        var authToken = authentication.authToken;
+
+        var client = require('twilio')(accountSid, authToken);
+        var MYNUMBER = "+12139857234";
+        var dataObject = {message: "Hi, this is a sample"};
+        client.messages.create({
+               to: "+919986968493", 
+               from: MYNUMBER, 
+               body: dataObject.message
+           }, function(err, message) { 
+               if (err)
+                   console.log("Error: " + err);
+               else
+                   console.log("success");
+           });
         response.tell("Message sent");
     },
     "GetWeatherIntent": function (intent, session, response) {
